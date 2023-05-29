@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 void main() {
+  final myController = TextEditingController();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
@@ -77,10 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
-      print('NFC data result $tag.data');
+      // print('NFC data result $tag.data');
       NfcManager.instance.stopSession();
     });
   }
+
+
+
   void _ndefWrite() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var ndef = Ndef.from(tag);
@@ -201,7 +205,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 // padding: const EdgeInsets.all(60.20),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    _ndefWrite();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const WriteNfcTag()),
+                    );
+                    // _ndefWrite();
                   },
                   icon: const Icon(
                     // <-- Icon
@@ -209,23 +217,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     size: 30.0,
                   ),
                   label: const Text('Write'), // <-- Text
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.10),
-              child: SizedBox(
-                height: 50, //height of button
-                width: 300, //width of button
-                // padding: const EdgeInsets.all(60.20),
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    // <-- Icon
-                    Icons.more,
-                    size: 30.0,
-                  ),
-                  label: const Text('Others'), // <-- Text
                 ),
               ),
             ),
@@ -269,3 +260,127 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+class WriteNfcTag extends StatelessWidget {
+  const WriteNfcTag({super.key});
+
+
+  @override
+  Widget build(BuildContext context) {
+    final name = TextEditingController();
+    final phone = TextEditingController();
+    final email = TextEditingController();
+    final facebook = TextEditingController();
+    final instagram = TextEditingController();
+    final twitter = TextEditingController();
+    final linkedIn = TextEditingController();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Write NFC Tag'),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          child: Column(
+            children:  <Widget>[
+               Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: TextField(
+                  controller: name,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Name',
+
+                  ),
+                  
+
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: TextField(
+                  controller: phone,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Phone/Mobile',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: TextField(
+                  controller: email,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Email',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: TextField(
+                  controller: facebook,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Facebook',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: TextField(
+                  controller: instagram,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Instagram',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: TextField(
+                  controller: twitter,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Twitter',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: TextField(
+                  controller: linkedIn,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter LinkedIn',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 20.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    print('name ${name.text}');
+                    print('phone ${phone.text}');
+                    print('email ${email.text}');
+                    print('facebook ${facebook.text}');
+                    print('instagram ${instagram.text}');
+                    print('twitter ${twitter.text}');
+                    print('linkedIn ${linkedIn.text}');
+                  },
+                 child: Text("Submit"),
+                ),
+              ),
+
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+

@@ -2,7 +2,7 @@
     package="com.webwear.nfc_rw">
 
     <uses-permission android:name="android.permission.NFC" />
-    <uses-sdk android:minSdkVersion="10"/>
+    <uses-sdk android:minSdkVersion="28"/>
     <uses-feature android:name="android.hardware.nfc" android:required="true" />
     <application
         android:name="${applicationName}"
