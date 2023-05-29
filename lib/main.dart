@@ -1,5 +1,5 @@
 // import 'dart:js_util';
-
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -75,17 +75,33 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-  void _tagRead() {
+void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
-      // print('NFC data result $tag.data');
-      NfcManager.instance.stopSession();
+      print('NFC result ${result.value}');
+      print('NFC tag data ${tag.data}');
+
+      var ndef = Ndef.from(tag);
+
+      var record1 = ndef?.cachedMessage?.records[0];
+      var decodedPayload1 = ascii.decode(record1!.payload).substring(3);
+      print('NFC first record $decodedPayload1');
+
+      var record2 = ndef?.cachedMessage?.records[1];
+      var decodedPayload2 = ascii.decode(record2!.payload).substring(3);
+      print('NFC second record $decodedPayload2');
+
+      /*var record1 = ndef?.cachedMessage?.records[0];
+      var decodedPayload1 = ascii.decode(record1!.payload);
+
+      var record1 = ndef?.cachedMessage?.records[0];
+      var decodedPayload1 = ascii.decode(record1!.payload);*/
+      //   NfcManager.instance.stopSession();
     });
   }
 
 
-
-  void _ndefWrite() {
+   void _ndefWrite() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var ndef = Ndef.from(tag);
       if (ndef == null || !ndef.isWritable) {
@@ -95,12 +111,13 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       NdefMessage message = NdefMessage([
-        NdefRecord.createText('Hello World!'),
-        NdefRecord.createUri(Uri.parse('https://flutter.dev')),
-        NdefRecord.createMime(
+        NdefRecord.createText('Rabilan'),
+        NdefRecord.createText('https://www.facebook.com/narendramodi/'),
+  //      NdefRecord.createUri(Uri.parse('shiva@gmail.com')),
+       /* NdefRecord.createMime(
             'text/plain', Uint8List.fromList('Hello'.codeUnits)),
         NdefRecord.createExternal(
-            'com.example', 'mytype', Uint8List.fromList('mydata'.codeUnits)),
+            'com.example', 'mytype', Uint8List.fromList('mydata'.codeUnits)),*/
       ]);
 
       try {
