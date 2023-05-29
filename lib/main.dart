@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-void _tagRead() {
+  void _tagRead() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       result.value = tag.data;
       print('NFC result ${result.value}');
@@ -101,7 +101,7 @@ void _tagRead() {
   }
 
 
-   void _ndefWrite() {
+  void _ndefWrite() {
     NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
       var ndef = Ndef.from(tag);
       if (ndef == null || !ndef.isWritable) {
@@ -113,8 +113,8 @@ void _tagRead() {
       NdefMessage message = NdefMessage([
         NdefRecord.createText('Rabilan'),
         NdefRecord.createText('https://www.facebook.com/narendramodi/'),
-  //      NdefRecord.createUri(Uri.parse('shiva@gmail.com')),
-       /* NdefRecord.createMime(
+        //      NdefRecord.createUri(Uri.parse('shiva@gmail.com')),
+        /* NdefRecord.createMime(
             'text/plain', Uint8List.fromList('Hello'.codeUnits)),
         NdefRecord.createExternal(
             'com.example', 'mytype', Uint8List.fromList('mydata'.codeUnits)),*/
